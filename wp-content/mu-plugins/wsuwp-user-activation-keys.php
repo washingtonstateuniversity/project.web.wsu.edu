@@ -26,7 +26,7 @@ class ds_user_activation_keys {
 	}
 
 	function ds_uak_admin_page() {
-		add_submenu_page('users.php', 'User Activation Keys', 'User Activation Keys', 'edit_users', 'act_keys', array(&$this, 'ds_delete_stale'));
+		add_submenu_page( 'users.php', 'User Activation Keys', 'User Activation Keys', 'edit_users', 'act_keys', array( $this, 'ds_delete_stale' ) );
 	}
 
 	function ds_delete_stale() {
@@ -34,13 +34,18 @@ class ds_user_activation_keys {
 		$query = "SELECT * FROM {$wpdb->signups} ORDER BY registered DESC";
 		$results = $wpdb->get_results($query, ARRAY_A);
 		if(isset($_GET['delete'])) {
-			$delete = $_GET['delete'];
+			$delete = sanitize_key( $_GET['delete'] );
 		}
 		if(isset($_GET['del_stale_active'])) {
 			$del_stale_active = $_GET['del_stale_active'];
+		} else {
+			$del_stale_active = 0;
 		}
+
 		if(isset($_GET['del_stale_inactive'])) {
 			$del_stale_inactive = $_GET['del_stale_inactive'];
+		} else {
+			$del_stale_inactive = 0;
 		}
 
 		$location = network_admin_url('users.php?page=act_keys');
@@ -60,7 +65,7 @@ class ds_user_activation_keys {
 		if ( '1' == $del_stale_inactive ) {
 			check_admin_referer('activation_key');
 			$wpdb->query($wpdb->prepare("DELETE FROM $wpdb->signups WHERE active = %d AND DATE(registered) < DATE_SUB(CURDATE(), INTERVAL %s DAY)",0,30));
-			echo '<meta http-equiv="refresh" content="0;url='.$location.'" />';
+			echo '<meta http-equiv="refresh" content="0;url='. esc_url( $location ).'" />';
 			exit;
 		}
 
@@ -76,11 +81,11 @@ class ds_user_activation_keys {
 			echo '<thead><th>#</th><th>Registered</th><th>User</th><th>Email</th><th>Approve</th></thead>';
 			foreach ( $results as $rows ) {
 				global $ct;
-				echo '<tr><td>' . ++$ct . '</td><td>'.$rows['registered'].'</td><td>'.$rows['user_login'].'</td><td>'.$rows['user_email'].'</td>';
+				echo '<tr><td>' . ++$ct . '</td><td>'. esc_html( $rows['registered'] ) .'</td><td>'. esc_html( $rows['user_login'] ).'</td><td>'. esc_html( $rows['user_email'] ).'</td>';
 				if($rows['active'] != '1') {
-					echo '<td><a href="' . site_url('wp-activate.php?key='.$rows['activation_key']) . '" target="_blank">approve</a> | <a href="' . wp_nonce_url( $location . '&delete='.$rows['activation_key'], 'activation_key' ) . '">delete unused key</a></td>';
+					echo '<td><a href="' . site_url('wp-activate.php?key='. sanitize_key( $rows['activation_key'] ) ) . '" target="_blank">approve</a> | <a href="' . wp_nonce_url( $location . '&delete=' . sanitize_key( $rows['activation_key'] ), 'activation_key' ) . '">delete unused key</a></td>';
 				} else {
-					echo '<td>User Activated '.$rows['activated'].' | <a href="' .  wp_nonce_url( $location . '&delete='.$rows['activation_key'] , 'activation_key' ).'">delete uncecessary key</a></td>';
+					echo '<td>User Activated '.$rows['activated'].' | <a href="' .  wp_nonce_url( $location . '&delete='. sanitize_key( $rows['activation_key'] ) , 'activation_key' ).'">delete uncecessary key</a></td>';
 				}
 				echo '</tr>';
 			}
