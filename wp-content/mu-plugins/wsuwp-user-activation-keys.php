@@ -30,6 +30,10 @@ class ds_user_activation_keys {
 	}
 
 	function ds_delete_stale() {
+		if ( ! is_super_admin() ) {
+			return;
+		}
+
 		global $wpdb;
 		$query = "SELECT * FROM {$wpdb->signups} ORDER BY registered DESC";
 		$results = $wpdb->get_results($query, ARRAY_A);
