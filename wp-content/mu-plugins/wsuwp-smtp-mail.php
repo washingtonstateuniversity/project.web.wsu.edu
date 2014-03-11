@@ -14,7 +14,7 @@ add_action( 'phpmailer_init', 'wsuwp_smtp_email' );
 function wsuwp_smtp_email( $phpmailer ) {
 	$phpmailer->Mailer = 'smtp';
 	$phpmailer->From = 'www-data@wsuwp-indie-prod-01.web.wsu.edu';
-	$phpmailer->FromName = 'WSU News';
+	$phpmailer->FromName = 'WSU Projects';
 	$phpmailer->Sender = $phpmailer->From;
 	$phpmailer->Host = 'smtp.wsu.edu';
 	$phpmailer->Port = 25;
