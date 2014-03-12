@@ -24,6 +24,16 @@ add_filter( 'pre_option_comment_whitelist', '__return_zero' );
 add_filter( 'pre_option_default_pingback_flag', '__return_zero' );
 add_filter( 'pre_option_default_ping_status', '__return_zero' );
 
+add_filter( 'pre_option_blog_public', 'wsu_project_default_private' );
+/**
+ * Filter the default 'blog_public' option to 2 so that Restricted Site Access
+ * will automatically redirect unauthenticated users to wp-login.php unless
+ * the settings are changed.
+ */
+function wsu_project_default_private() {
+	return 2;
+}
+
 add_filter( 'upload_mimes', 'wsu_project_upload_mimes', 10, 1 );
 /**
  * Additional mime types required by project.web.wsu.edu
