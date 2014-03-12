@@ -16,3 +16,15 @@ function wsu_project_upload_mimes( $types ) {
 	return $types;
 }
 
+add_filter( 'pre_site_option_upload_filetypes', 'wsu_project_upload_filetypes', 10 );
+/**
+ * Set the allowed list of upload filetypes.
+ *
+ * Removed - midi, mid
+ * Added - pdf, ai, psd, eps, doc, xls, zip
+ *
+ * @return string Allowed upload filetypes on the network.
+ */
+function wsu_project_upload_filetypes() {
+	return 'jpg jpeg png gif mp3 mov avi wmv pdf ai psd eps doc xls zip';
+}
