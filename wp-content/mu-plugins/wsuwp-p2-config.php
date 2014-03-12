@@ -14,8 +14,15 @@ Version: 0.1
  * - Turn off moderation
  * - Don't require new authors to have one approved comment
  */
-add_filter( 'pre_option_comment_moderation', '__return_false' );
-add_filter( 'pre_option_comment_whitelist', '__return_false' );
+add_filter( 'pre_option_comment_moderation', '__return_zero' );
+add_filter( 'pre_option_comment_whitelist', '__return_zero' );
+
+/**
+ * Disable pingbacks to outside sources.
+ * Don't accept pingbacks from outside sources.
+ */
+add_filter( 'pre_option_default_pingback_flag', '__return_zero' );
+add_filter( 'pre_option_default_ping_status', '__return_zero' );
 
 add_filter( 'upload_mimes', 'wsu_project_upload_mimes', 10, 1 );
 /**
