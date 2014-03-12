@@ -24,6 +24,11 @@ add_filter( 'pre_option_comment_whitelist', '__return_zero' );
 add_filter( 'pre_option_default_pingback_flag', '__return_zero' );
 add_filter( 'pre_option_default_ping_status', '__return_zero' );
 
+add_action( 'admin_init', 'wsu_project_admin_init', 11 );
+function wsu_project_admin_init() {
+	remove_action( 'load-options-reading.php', array( 'Restricted_Site_Access', 'load_options_page' ) );
+}
+
 add_filter( 'pre_option_blog_public', 'wsu_project_default_private' );
 /**
  * Filter the default 'blog_public' option to 2 so that Restricted Site Access
