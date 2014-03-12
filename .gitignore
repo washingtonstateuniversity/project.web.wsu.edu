@@ -3,3 +3,6 @@
 
 wordpress
 wp-config.php
+
+wp-content/plugins/wp-by-email/.gitignore
+wp-content/plugins/wp-by-email/.gitmodules
