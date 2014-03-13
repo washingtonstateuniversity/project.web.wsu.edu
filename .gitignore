@@ -1,8 +1,12 @@
 .DS_Store
 .idea
+*.sublime*
 
 wordpress
 wp-config.php
+
+wp-content/plugins/wsuwp-sso-authentication
+wp-content/plugins/wsuwp-plugin-custom-css
 
 wp-content/plugins/wp-by-email/.gitignore
 wp-content/plugins/wp-by-email/.gitmodules
