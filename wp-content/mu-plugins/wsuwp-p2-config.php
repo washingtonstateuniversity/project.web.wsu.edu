@@ -67,3 +67,9 @@ add_filter( 'pre_site_option_upload_filetypes', 'wsu_project_upload_filetypes', 
 function wsu_project_upload_filetypes() {
 	return 'jpg jpeg png gif mp3 mov avi wmv pdf ai psd eps doc xls zip';
 }
+
+add_action( 'admin_init', 'wsu_author_upload_files' );
+function wsu_author_upload_files() {
+	$author = get_role('author');
+	$author->add_cap('upload_files');
+}
